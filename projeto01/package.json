@@ -6,6 +6,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "open": "echo \"Olá, mundo!\" && exit 1"
   },
+  "keywords": [
+    "project",
+    "projeto",
+    "minha primeira api",
+    ""
+  ],
   "author": "Giancarlo Massaccesi",
   "license": "ISC",
   "description": "My first project Node.js - Meu primeiro projeto Node.js"
