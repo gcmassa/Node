@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Giancarlo Massaccesi",
   "license": "ISC",
-  "description": ""
+  "description": "Desafio de programação: Criar um jogo de corrida em Node.js com assets e lógica de jogador"
 }
