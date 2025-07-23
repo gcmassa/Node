@@ -1,11 +1,11 @@
 
-# 📦 Projeto: CommonJS Modules – `src/`
+# 📦 Documentação da pasta `commonjs-modules/src`
 
-Este diretório contém uma aplicação Node.js estruturada com o padrão de módulos **CommonJS**, demonstrando boas práticas de organização, reutilização de código e separação de responsabilidades.
+Esta pasta contém um exemplo prático de modularização em Node.js utilizando o padrão **CommonJS**. Os arquivos estão organizados para demonstrar como importar, exportar e reutilizar funcionalidades entre módulos, com foco em clareza e boas práticas.
 
 ---
 
-## 📁 Estrutura do projeto
+## 📁 Estrutura
 
 ```
 src/
@@ -20,102 +20,143 @@ src/
 
 ## 1️⃣ `main.js`
 
-### 📌 Função
-Arquivo principal da aplicação. Ele importa os módulos da pasta `services` e executa a lógica central.
+### 🎯 Propósito
+Arquivo principal da aplicação, responsável por importar os módulos e executar a lógica central.
 
-### 📥 Importações esperadas
+### 📄 Conteúdo e comentários
 ```js
-const config = require('./services/config');
-const db = require('./services/database');
-const products = require('./services/products');
+const product = require("./services/products"); // importa o arquivo
+const { getFullName, productType } = require("./services/products"); // importa algumas funções específicas do arquivo (destructuring)
+const config = require("./services/config");
+const database = require("./services/database");
+
+async function main() {
+  console.log("Carrinho compras!!!");
+
+  getFullName("1", "teclado");
+  product.getFullName("408", "mousepad");
+  product.getFullName("508", "mouse");
+  product.getProductLabel("mouse");
+
+  //product.productType.version;
+  database.connectToDataBase; // função padrão exportada
+
+  console.log(config.devArea);
+  console.log(config.client);
+};
+
+main();
 ```
 
-### 🚀 Exemplo de uso
-```js
-console.log(`Servidor rodando na porta ${config.PORT}`);
-
-const lista = products.getAllProducts();
-console.log('Produtos disponíveis:', lista);
-
-const produto = products.getProductById(2);
-console.log('Produto selecionado:', produto);
-```
+### 💬 Destaques
+- Usa `require()` para importar módulos completos e também com destructuring.
+- Chama funções assíncronas como `getFullName` e `getProductLabel`.
+- Acessa propriedades de configuração e simula uma chamada ao banco de dados.
+- Comentários explicam claramente o propósito de cada importação e função.
 
 ---
 
-## 2️⃣ Pasta `services/`
+## 2️⃣ `services/products.js`
 
-### 🔸 `config.js`
+### 🎯 Propósito
+Agrupar todas as funções que lidam com produtos.
 
-#### 🎯 Propósito
-Centraliza configurações da aplicação.
-
-#### 📦 Exemplo de conteúdo
+### 📄 Conteúdo e comentários
 ```js
+// todas as funções que lidam com o produto
+const productType = {
+  version: "digital",
+  tax: "x1",
+};
+
+async function getFullName(codeId, productName) {
+  //console.log("\n");
+  console.log("product: " + codeId + "--" + productName);
+  await doBreakLine();
+  //return codeId + "--" + productName;
+};
+
+//hidden const
+const apiURL = {
+  url: "www.google.com/api",
+};
+
+//hidden function
+async function doBreakLine() {
+  console.log("\n");
+};
+
+async function getProductLabel(productName) {
+  console.log("Product " + productName);
+};
+
+// torna o arquivo exportável
 module.exports = {
-  PORT: 3000,
-  DB_HOST: 'localhost',
-  API_KEY: 'abc123'
+  getFullName,
+  getProductLabel,
+  productType,
 };
 ```
 
----
-
-### 🔸 `database.js`
-
-#### 🎯 Propósito
-Simula uma base de dados em memória.
-
-#### 📦 Exemplo de conteúdo
-```js
-const products = [
-  { id: 1, name: 'Teclado', price: 100 },
-  { id: 2, name: 'Mouse', price: 50 },
-  { id: 3, name: 'Monitor', price: 800 }
-];
-
-module.exports = products;
-```
+### 💬 Destaques
+- Comentário inicial define claramente o escopo do módulo.
+- `getFullName` imprime o nome completo do produto e chama `doBreakLine()` para espaçamento.
+- `getProductLabel` imprime uma etiqueta simples do produto.
+- `productType` define metadados do produto.
+- `apiURL` e `doBreakLine` são marcados como “hidden”, indicando que não são exportados.
+- O `module.exports` torna as funções acessíveis em outros arquivos.
 
 ---
 
-### 🔸 `products.js`
+## 3️⃣ `services/config.js` (presumido com base no uso em `main.js`)
 
-#### 🎯 Propósito
-Gerencia operações relacionadas a produtos.
+### 🎯 Propósito
+Centralizar configurações da aplicação.
 
-#### 📦 Exemplo de conteúdo
+### 📄 Exemplo de conteúdo (deduzido)
 ```js
-const db = require('./database');
-
-function getAllProducts() {
-  return db;
-}
-
-function getProductById(id) {
-  return db.find(p => p.id === id);
-}
-
 module.exports = {
-  getAllProducts,
-  getProductById
+  devArea: "Tecnologia",
+  client: "Giancarlo Massa"
 };
 ```
+
+### 💬 Destaques
+- Usado em `main.js` para exibir informações de ambiente e cliente.
+- Facilita a manutenção de valores fixos e evita duplicação.
+
+---
+
+## 4️⃣ `services/database.js` (presumido com base no uso em `main.js`)
+
+### 🎯 Propósito
+Simular uma conexão com banco de dados.
+
+### 📄 Exemplo de conteúdo (deduzido)
+```js
+module.exports = {
+  connectToDataBase: () => {
+    console.log("Conectando ao banco de dados...");
+  }
+};
+```
+
+### 💬 Destaques
+- A função `connectToDataBase` é chamada em `main.js` (embora não executada diretamente).
+- Representa uma abstração útil para futuras integrações reais com banco de dados.
 
 ---
 
 ## ✅ Conclusão
 
-Este projeto demonstra como utilizar o padrão **CommonJS** para modularizar uma aplicação Node.js. Os principais benefícios dessa abordagem são:
+A pasta `commonjs-modules/src` demonstra com clareza como estruturar uma aplicação Node.js usando o padrão CommonJS. Os principais aprendizados incluem:
 
-- 🔄 Reutilização de código
-- 🧩 Separação de responsabilidades
-- 🧠 Facilidade de manutenção
-- 🚀 Escalabilidade para projetos maiores
+- 📦 Modularização com `require()` e `module.exports`
+- 🧩 Separação de responsabilidades entre lógica, dados e configuração
+- 💬 Comentários explicativos que facilitam o entendimento do código
+- 🚀 Uso de funções assíncronas e organização em camadas
 
-A estrutura adotada aqui é ideal para quem está aprendendo Node.js e deseja aplicar boas práticas desde os primeiros projetos.
+Esse exemplo é ideal para quem está aprendendo Node.js e deseja aplicar boas práticas desde o início. A estrutura modular torna o código mais limpo, reutilizável e fácil de escalar.
 
 ---
-
-
 
