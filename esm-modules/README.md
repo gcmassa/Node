@@ -1,4 +1,4 @@
-# 📁 Explicativo da pasta `esm-modules/src` e subpasta `utils`
+# 📦 Documentação da pasta `esm-modules/src` e subpasta `utils`
 
 Este diretório demonstra como estruturar e utilizar **ES Modules (ECMAScript Modules)** no Node.js. Os arquivos contêm funções simuladas e constantes utilitárias, com comentários que explicam boas práticas de exportação, importação e organização modular.
 
